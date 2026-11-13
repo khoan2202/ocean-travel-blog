@@ -24,11 +24,12 @@ async function getPosts(req, res) {
 
   // 1) Lấy CHI TIẾT 1 bài theo slug
   if (slug) {
-    // UPDATE ... RETURNING: vừa tăng lượt xem vừa lấy dữ liệu trong 1 câu lệnh
-    const rows = await query(
-      `UPDATE posts SET views = views + 1 WHERE slug = $1 RETURNING *`,
-      [cleanText(slug, 120)]
-    );
+    // UPDATE ... RETURNING: vừa tăng lượt xem vừa lấy dữ liệu trong 1 câu lệnh.
+    // Admin mở bài để sửa thì KHÔNG tính lượt xem.
+    const sql = isAdmin(req)
+      ? 'SELECT * FROM posts WHERE slug = $1'
+      : 'UPDATE posts SET views = views + 1 WHERE slug = $1 RETURNING *';
+    const rows = await query(sql, [cleanText(slug, 120)]);
     if (rows.length === 0) return sendJson(res, 404, { error: 'Không tìm thấy bài viết' });
 
     const comments = await query(
