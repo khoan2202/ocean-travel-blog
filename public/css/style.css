@@ -192,7 +192,7 @@ button { cursor: pointer; background: none; border: 0; }
 .burger.is-open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
 .mobile-menu {
-  position: fixed; inset: 0; z-index: 110; display: grid; place-items: center;
+  position: fixed; inset: 0; z-index: 99; /* nằm dưới header để vẫn thấy nút X */ display: grid; place-items: center;
   background: radial-gradient(circle at top right, var(--ocean-700), var(--ocean-950));
   clip-path: circle(0% at calc(100% - 46px) 38px);          /* bắt đầu là chấm tròn ở nút burger */
   transition: clip-path 0.8s var(--ease);
@@ -415,9 +415,9 @@ button { cursor: pointer; background: none; border: 0; }
   opacity: 0; transform: translateY(40px) scale(0.96); transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
 }
 .modal.is-open .modal__panel { opacity: 1; transform: none; }
-.modal__close { position: sticky; top: 14px; float: right; margin: 14px 14px 0 0; z-index: 3; width: 40px; height: 40px; border-radius: 50%; background: rgba(3, 26, 47, 0.75); backdrop-filter: blur(6px); transition: transform 0.35s var(--ease), background 0.3s; }
+.modal__close { position: sticky; top: 14px; display: block; margin: 14px 14px -54px auto; /* margin âm: nút nổi trên ảnh bìa */ z-index: 3; width: 40px; height: 40px; border-radius: 50%; background: rgba(3, 26, 47, 0.75); backdrop-filter: blur(6px); transition: transform 0.35s var(--ease), background 0.3s; }
 .modal__close:hover { transform: rotate(90deg); background: var(--mint-400); color: var(--ocean-900); }
-.post-detail__cover { width: 100%; aspect-ratio: 16 / 8; object-fit: cover; margin-top: -54px; }
+.post-detail__cover { width: 100%; aspect-ratio: 16 / 8; object-fit: cover; }
 .post-detail__body { padding: 32px 40px 40px; }
 .post-detail__body h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.2; margin: 12px 0 16px; }
 .post-detail__meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 26px; }
