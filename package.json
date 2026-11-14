@@ -1,18 +1,17 @@
 {
   "name": "wanderwave-travel-blog",
   "version": "1.0.0",
-  "description": "Wanderwave – Personal Travel Blog full-stack (HTML/CSS/JS + Vercel Serverless API + PostgreSQL)",
+  "description": "Wanderwave – Personal Travel Blog (HTML/CSS/JS + Vercel Serverless API + PGlite nhúng, không cần database ngoài)",
   "private": true,
   "scripts": {
     "dev": "node dev-server.js",
-    "db:init": "node scripts/init-db.js",
     "test:api": "node scripts/test-api.js"
   },
   "engines": {
-    "node": ">=18"
+    "node": "24.x"
   },
   "dependencies": {
-    "pg": "^8.13.0"
+    "@electric-sql/pglite": "^0.5.16"
   },
   "license": "MIT"
 }

@@ -4,20 +4,27 @@
   "cleanUrls": true,
   "functions": {
     "api/*.js": {
-      "maxDuration": 10
+      "maxDuration": 10,
+      "includeFiles": "{sql/**,node_modules/@electric-sql/pglite/dist/**}"
     }
   },
   "headers": [
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "no-store" }
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
       ]
     },
     {
       "source": "/assets/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=604800, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, immutable"
+        }
       ]
     }
   ]

@@ -6,26 +6,27 @@ Blog du lịch cá nhân với **rất nhiều hiệu ứng động**, tông **x
 |------|-----------|
 | Frontend | HTML5, CSS3 (biến CSS, keyframes, Grid/Flex), JavaScript thuần (ES Modules) |
 | Backend | Vercel Serverless Functions (Node.js) trong thư mục `api/` |
-| Database | PostgreSQL (Neon trên Vercel Marketplace) qua thư viện `pg` |
+| Database | PGlite (PostgreSQL nhúng, dữ liệu mẫu trong `sql/seed.sql`) |
 | Deploy | Vercel |
 
 ## Chạy nhanh trên máy
 
 ```bash
 npm install
-cp .env.example .env      # rồi sửa DATABASE_URL, ADMIN_KEY
-npm run db:init           # tạo bảng + dữ liệu mẫu
 npm run dev               # mở http://localhost:3000
 ```
+Không cần cài PostgreSQL hay tạo database: dữ liệu mẫu (`sql/seed.sql`) được nạp vào
+một Postgres nhúng (PGlite) mỗi lần server khởi động. Tạo file `.env` với `ADMIN_KEY=...`
+để vào trang `/admin` (xem `.env.example`).
+
+> Lưu ý: bình luận, tim, đăng ký, bài viết thêm từ admin chỉ nằm trong RAM – tắt server
+> (hoặc instance Vercel nghỉ) là mất, quay về dữ liệu mẫu.
 
 ## Deploy lên Vercel
 
 1. Đẩy code lên GitHub.
 2. Vercel → **Add New → Project** → chọn repo → Framework Preset: **Other** → Deploy.
-3. Project → **Storage** → **Create Database** → chọn **Neon** → Connect (Vercel tự thêm `DATABASE_URL`).
-4. **Settings → Environment Variables** → thêm `ADMIN_KEY`.
-5. Chạy `npm run db:init` một lần (với `DATABASE_URL` của Neon trong `.env`) hoặc dán `sql/schema.sql` + `sql/seed.sql` vào SQL Editor của Neon.
-6. **Redeploy**.
+3. **Settings → Environment Variables** → thêm `ADMIN_KEY` → **Redeploy**.
 
 ## Cấu trúc thư mục
 
@@ -39,13 +40,12 @@ ocean-travel-blog/
 │   ├── contact.js      # POST liên hệ, GET (admin)
 │   └── stats.js        # GET số liệu thống kê
 ├── lib/
-│   ├── db.js           # Kết nối PostgreSQL (connection pool)
+│   ├── db.js           # Database nhúng PGlite (nạp schema + seed khi khởi động)
 │   └── http.js         # Hàm tiện ích: trả JSON, kiểm tra admin, validate
 ├── sql/
 │   ├── schema.sql      # Tạo bảng
 │   └── seed.sql        # Dữ liệu mẫu
 ├── scripts/
-│   ├── init-db.js      # Chạy schema + seed
 │   └── test-api.js     # Test nhanh các API
 ├── public/             # Frontend tĩnh (Vercel phục vụ thư mục này)
 │   ├── index.html
