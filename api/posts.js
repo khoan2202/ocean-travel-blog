@@ -72,7 +72,7 @@ function validatePost(body, { partial = false } = {}) {
     category: cleanText(body.category, 20),
     location: cleanText(body.location, 120),
     country: cleanText(body.country, 80),
-    cover_image: cleanText(body.cover_image, 255) || '/assets/img/halong.jpg',
+    cover_image: cleanText(body.cover_image, 255) || '/assets/img/halong.jpg?v=2',
     read_minutes: Math.max(1, parseInt(body.read_minutes, 10) || 5),
     distance_km: Math.max(0, parseInt(body.distance_km, 10) || 0),
     // Chỉ nhận ngày dạng YYYY-MM-DD, sai định dạng -> null

@@ -16,7 +16,7 @@ VALUES
 Buổi chiều mình chèo kayak qua hang Luồn. Nước trong đến mức nhìn thấy cả đàn cá nhỏ bơi dưới mái chèo. Bên trong là một hồ nước kín, yên tĩnh tới mức chỉ nghe tiếng chim và tiếng sóng vỗ nhẹ.
 
 Sáng hôm sau, leo 400 bậc lên đỉnh Ti Tốp để ngắm bình minh. Toàn cảnh vịnh trải dài dưới chân, ánh nắng đầu tiên nhuộm vàng mặt biển. Đó là khoảnh khắc mình biết vì sao Hạ Long được gọi là kỳ quan.',
-  'beach', 'Quảng Ninh', 'Việt Nam', '/assets/img/halong.jpg', 6, 165, 128, 940, '2025-03-14', TRUE
+  'beach', 'Quảng Ninh', 'Việt Nam', '/assets/img/halong.jpg?v=2', 6, 165, 128, 940, '2025-03-14', TRUE
 ),
 (
   'sa-pa-san-may', 'Sa Pa – Săn mây trên nóc nhà Đông Dương',
@@ -26,7 +26,7 @@ Sáng hôm sau, leo 400 bậc lên đỉnh Ti Tốp để ngắm bình minh. To�
 Ngày thứ hai, mình chọn đi cáp treo lên Fansipan rồi leo thêm 600 bậc đá. Khi lên tới đỉnh, biển mây cuồn cuộn ngay dưới chân, gió lạnh buốt nhưng cảm giác thì thật sự choáng ngợp.
 
 Buổi tối ở thị trấn, một bát thắng cố nóng hổi và vài xiên thịt nướng bên bếp than là cách tuyệt vời nhất để kết thúc ngày dài.',
-  'mountain', 'Lào Cai', 'Việt Nam', '/assets/img/sapa.jpg', 7, 320, 214, 1530, '2025-09-20', TRUE
+  'mountain', 'Lào Cai', 'Việt Nam', '/assets/img/sapa.jpg?v=2', 7, 320, 214, 1530, '2025-09-20', TRUE
 ),
 (
   'hoi-an-den-long', 'Hội An – Phố cổ lung linh đèn lồng',
@@ -36,7 +36,7 @@ Buổi tối ở thị trấn, một bát thắng cố nóng hổi và vài xiê
 Mình thuê một chiếc xe đạp, đi qua những con hẻm nhỏ với tường vàng phủ hoa giấy. Mỗi góc phố đều có thể trở thành một khung hình đẹp.
 
 Đừng quên thử cao lầu, mì Quảng và bánh mì Phượng. Và nhất định phải thả một chiếc hoa đăng để gửi điều ước theo dòng nước.',
-  'city', 'Quảng Nam', 'Việt Nam', '/assets/img/hoian.jpg', 5, 880, 186, 1210, '2025-06-02', TRUE
+  'city', 'Quảng Nam', 'Việt Nam', '/assets/img/hoian.jpg?v=2', 5, 880, 186, 1210, '2025-06-02', TRUE
 ),
 (
   'phu-quoc-hoang-hon', 'Phú Quốc – Hoàng hôn ở đảo ngọc',
@@ -46,7 +46,7 @@ Mình thuê một chiếc xe đạp, đi qua những con hẻm nhỏ với tư�
 Tour lặn ngắm san hô ở quần đảo An Thới thật đáng tiền: rạn san hô nhiều màu sắc, cá hề, cá thia bơi ngay trước mặt.
 
 Buổi tối, ngồi ở Sunset Town ngắm mặt trời lặn dần xuống biển, sau đó ghé chợ đêm Dinh Cậu ăn ghẹ hấp và gỏi cá trích.',
-  'beach', 'Kiên Giang', 'Việt Nam', '/assets/img/phuquoc.jpg', 5, 1150, 97, 760, '2025-01-10', FALSE
+  'beach', 'Kiên Giang', 'Việt Nam', '/assets/img/phuquoc.jpg?v=2', 5, 1150, 97, 760, '2025-01-10', FALSE
 ),
 (
   'ha-giang-ma-pi-leng', 'Hà Giang – Vòng cung Mã Pí Lèng',
@@ -56,7 +56,7 @@ Buổi tối, ngồi ở Sunset Town ngắm mặt trời lặn dần xuống bi�
 Đứng trên đèo Mã Pí Lèng nhìn xuống, dòng Nho Quế như một sợi chỉ xanh ngọc vắt qua hẻm vực sâu hun hút.
 
 Mình đi thuyền trên sông Nho Quế, len giữa hai vách đá cao hàng trăm mét. Đó là trải nghiệm khiến mình muốn quay lại ngay lần sau.',
-  'mountain', 'Hà Giang', 'Việt Nam', '/assets/img/hagiang.jpg', 8, 420, 173, 1100, '2024-11-05', FALSE
+  'mountain', 'Hà Giang', 'Việt Nam', '/assets/img/hagiang.jpg?v=2', 8, 420, 173, 1100, '2024-11-05', FALSE
 ),
 (
   'kyoto-mua-la-do', 'Kyoto – Mùa lá đỏ cố đô',
@@ -66,7 +66,7 @@ Mình đi thuyền trên sông Nho Quế, len giữa hai vách đá cao hàng tr
 Mình dậy từ 6 giờ sáng để đi Fushimi Inari khi còn vắng khách. Hàng nghìn cổng torii đỏ nối tiếp nhau lên núi, đẹp như một đường hầm thời gian.
 
 Chiều đến, rừng trúc Arashiyama xào xạc trong gió. Kết thúc ngày bằng một bát udon nóng và trà matcha ở Gion.',
-  'city', 'Kyoto', 'Nhật Bản', '/assets/img/kyoto.jpg', 6, 3700, 241, 1820, '2024-11-25', FALSE
+  'city', 'Kyoto', 'Nhật Bản', '/assets/img/kyoto.jpg?v=2', 6, 3700, 241, 1820, '2024-11-25', FALSE
 ),
 (
   'bali-ruong-bac-thang', 'Bali – Đền nước và ruộng bậc thang',
@@ -76,7 +76,7 @@ Chiều đến, rừng trúc Arashiyama xào xạc trong gió. Kết thúc ngày
 Ruộng bậc thang Tegallalang xanh mướt, mình thử đu dây "Bali swing" và ngắm toàn cảnh thung lũng.
 
 Hoàng hôn ở đền Tanah Lot là khoảnh khắc khó quên: ngôi đền đứng giữa sóng biển, bầu trời chuyển màu từ cam sang tím.',
-  'beach', 'Bali', 'Indonesia', '/assets/img/bali.jpg', 6, 2900, 158, 980, '2024-07-18', FALSE
+  'beach', 'Bali', 'Indonesia', '/assets/img/bali.jpg?v=2', 6, 2900, 158, 980, '2024-07-18', FALSE
 ),
 (
   'bangkok-street-food', 'Bangkok – Thiên đường street food về đêm',
@@ -86,7 +86,7 @@ Hoàng hôn ở đền Tanah Lot là khoảnh khắc khó quên: ngôi đền đ
 Mình bắt đầu với pad thai ở Thip Samai, sau đó là tôm nướng, súp tom yum và kết thúc bằng xoài nếp ngọt lịm.
 
 Mẹo nhỏ: hãy chọn quán đông người địa phương, mang theo tiền mặt và đừng ngại thử những món lạ.',
-  'food', 'Bangkok', 'Thái Lan', '/assets/img/bangkok.jpg', 4, 1600, 132, 870, '2024-04-12', FALSE
+  'food', 'Bangkok', 'Thái Lan', '/assets/img/bangkok.jpg?v=2', 4, 1600, 132, 870, '2024-04-12', FALSE
 ),
 (
   'hue-am-thuc-cung-dinh', 'Huế – Hương vị ẩm thực cung đình',
@@ -96,7 +96,7 @@ Mẹo nhỏ: hãy chọn quán đông người địa phương, mang theo tiền
 Buổi sáng là bát bún bò Huế cay nồng, buổi trưa là bánh bèo, bánh nậm, bánh lọc. Chiều ghé chợ Đông Ba ăn chè.
 
 Tối, mình thử một bữa cơm cung đình với những món được bày biện công phu như tác phẩm nghệ thuật.',
-  'food', 'Thừa Thiên Huế', 'Việt Nam', '/assets/img/hue.jpg', 5, 660, 89, 640, '2025-04-28', FALSE
+  'food', 'Thừa Thiên Huế', 'Việt Nam', '/assets/img/hue.jpg?v=2', 5, 660, 89, 640, '2025-04-28', FALSE
 ),
 (
   'santorini-mai-vom-xanh', 'Santorini – Mái vòm xanh bên biển Aegean',
@@ -106,7 +106,7 @@ Tối, mình thử một bữa cơm cung đình với những món được bày
 Mình đi bộ từ Fira tới Oia theo đường mòn ven vách núi, khoảng 10km nhưng mỗi bước đều là một khung cảnh tuyệt đẹp.
 
 Hoàng hôn ở Oia đông nghịt người nhưng xứng đáng. Khi mặt trời chạm biển, cả đám đông vỗ tay như một buổi hoà nhạc.',
-  'beach', 'Cyclades', 'Hy Lạp', '/assets/img/santorini.jpg', 6, 8600, 265, 2050, '2024-06-08', FALSE
+  'beach', 'Cyclades', 'Hy Lạp', '/assets/img/santorini.jpg?v=2', 6, 8600, 265, 2050, '2024-06-08', FALSE
 );
 
 INSERT INTO comments (post_id, author_name, content) VALUES

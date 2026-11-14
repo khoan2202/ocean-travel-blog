@@ -135,7 +135,7 @@ $('#tabs').addEventListener('click', (e) => {
 // ---------------------------------------------------------------------
 const drawer = $('#drawer');
 const form = $('#postForm');
-$('#coverSelect').innerHTML = IMAGES.map((n) => `<option value="/assets/img/${n}.jpg">${n}.jpg</option>`).join('');
+$('#coverSelect').innerHTML = IMAGES.map((n) => `<option value="/assets/img/${n}.jpg?v=2">${n}.jpg</option>`).join('');
 
 function openDrawer(post = null) {
   form.reset();

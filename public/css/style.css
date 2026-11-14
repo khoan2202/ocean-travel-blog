@@ -213,7 +213,7 @@ button { cursor: pointer; background: none; border: 0; }
 .hero__bg {
   position: absolute; inset: -10% 0 0; z-index: -3;
   background: linear-gradient(180deg, rgba(3, 26, 47, 0.55), rgba(3, 26, 47, 0.25) 40%, var(--ocean-900)),
-              url('../assets/img/hero.jpg') center / cover no-repeat;
+              url('../assets/img/hero.jpg?v=2') center / cover no-repeat;
 }
 /* Lưới kẻ ô + mặt nạ hình tròn đặt tại vị trí chuột (--mx, --my do JS cập nhật) */
 .hero__grid {
