@@ -1,21 +1,18 @@
-// =====================================================================
-//  js/forms.js – FORM ĐĂNG KÝ NHẬN TIN & FORM LIÊN HỆ
-//  Kiểm tra dữ liệu ở trình duyệt (cho nhanh) + server kiểm tra lại (cho chắc).
-// =====================================================================
+// Form đăng ký nhận tin và form liên hệ.
+// Kiểm tra ở trình duyệt cho nhanh, server vẫn kiểm tra lại.
 import { api } from './api.js';
 import { $, $$ } from './utils.js';
 import { showToast } from './effects.js';
 
 const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
 
-// Rung form khi có lỗi
 function shake(el) {
   el.classList.remove('shake');
-  void el.offsetWidth;                // "đọc" layout để trình duyệt reset animation
+  void el.offsetWidth; // ép reflow để animation chạy lại được
   el.classList.add('shake');
 }
 
-// Hàm dùng chung: khoá nút, gọi API, báo kết quả, mở khoá nút
+// khoá nút trong lúc gửi để khỏi bấm đúp
 async function submitTo(form, endpoint, body) {
   const button = form.querySelector('button[type="submit"]');
   const original = button.innerHTML;
@@ -47,14 +44,13 @@ export function initNewsletter() {
 export function initContactForm() {
   const form = $('#contactForm');
 
-  // Luật kiểm tra cho từng ô
   const rules = {
     name: (v) => v.length >= 2,
     email: isEmail,
     message: (v) => v.length >= 10,
   };
 
-  // Bỏ viền đỏ ngay khi người dùng sửa lại
+  // gõ lại là bỏ viền đỏ luôn
   $$('input, textarea', form).forEach((input) =>
     input.addEventListener('input', () => input.parentElement.classList.remove('is-invalid')));
 

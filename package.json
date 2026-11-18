@@ -1,8 +1,23 @@
 {
   "name": "wanderwave-travel-blog",
   "version": "1.0.0",
-  "description": "Wanderwave – Personal Travel Blog (HTML/CSS/JS + Vercel Serverless API + PGlite nhúng, không cần database ngoài)",
+  "description": "Wanderwave – blog du lịch cá nhân: HTML/CSS/JS thuần, API serverless trên Vercel, PGlite nhúng",
   "private": true,
+  "author": "Khoan",
+  "license": "MIT",
+  "homepage": "https://ocean-travel-blog.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khoan2202/ocean-travel-blog.git"
+  },
+  "keywords": [
+    "travel-blog",
+    "vanilla-js",
+    "vercel",
+    "serverless",
+    "postgresql",
+    "pglite"
+  ],
   "scripts": {
     "dev": "node dev-server.js",
     "test:api": "node scripts/test-api.js"
@@ -12,6 +27,5 @@
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.16"
-  },
-  "license": "MIT"
+  }
 }

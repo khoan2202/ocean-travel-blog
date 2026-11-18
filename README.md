@@ -1,61 +1,67 @@
-# 🌊 Wanderwave — Personal Travel Blog (Full-stack)
+# Wanderwave
 
-Blog du lịch cá nhân với **rất nhiều hiệu ứng động**, tông **xanh dương biển + mint**, lấy cảm hứng bố cục từ template *Luminary* (TemplateMo 621).
+Blog du lịch cá nhân, làm theo kiểu full-stack nhưng không dùng framework: frontend HTML/CSS/JS thuần, API chạy serverless trên Vercel, dữ liệu nằm trong một Postgres nhúng nên không cần cài hay cấu hình database.
 
-| Tầng | Công nghệ |
-|------|-----------|
-| Frontend | HTML5, CSS3 (biến CSS, keyframes, Grid/Flex), JavaScript thuần (ES Modules) |
-| Backend | Vercel Serverless Functions (Node.js) trong thư mục `api/` |
-| Database | PGlite (PostgreSQL nhúng, dữ liệu mẫu trong `sql/seed.sql`) |
-| Deploy | Vercel |
+**Demo:** https://ocean-travel-blog.vercel.app
 
-## Chạy nhanh trên máy
+## Có gì trong đó
+
+- Trang chủ với ~20 hiệu ứng viết tay (con trỏ tuỳ chỉnh, spotlight theo chuột, bong bóng canvas, gõ chữ, scroll reveal, bộ đếm số, parallax, thẻ nghiêng 3D, ripple...). Không dùng thư viện animation nào.
+- Danh sách bài viết có lọc theo danh mục, tìm kiếm (debounce), modal chi tiết, thả tim, bình luận.
+- Trang quản trị `/admin`: đăng nhập bằng `ADMIN_KEY`, thống kê, thêm/sửa/xoá bài, xem tin nhắn liên hệ và người đăng ký.
+- Form liên hệ và đăng ký nhận tin, kiểm tra cả ở trình duyệt lẫn server.
+- Responsive, hỗ trợ `prefers-reduced-motion`, escape HTML ở mọi chỗ hiển thị dữ liệu người dùng.
+
+## Công nghệ
+
+| | |
+|---|---|
+| Frontend | HTML5, CSS3 (biến CSS, Grid/Flex, keyframes), JavaScript ES Modules |
+| Backend | Vercel Serverless Functions (Node.js) trong `api/` |
+| Database | [PGlite](https://pglite.dev) (Postgres chạy trong tiến trình Node), schema và dữ liệu mẫu trong `sql/` |
+| Test | Script `scripts/test-api.js` (17 case), chạy tự động bằng GitHub Actions |
+
+## Chạy trên máy
+
+Cần Node.js 24 trở lên.
 
 ```bash
 npm install
-npm run dev               # mở http://localhost:3000
+cp .env.example .env     # đặt ADMIN_KEY nếu muốn vào /admin
+npm run dev              # http://localhost:3000
+npm run test:api         # chạy khi server đang bật
 ```
-Không cần cài PostgreSQL hay tạo database: dữ liệu mẫu (`sql/seed.sql`) được nạp vào
-một Postgres nhúng (PGlite) mỗi lần server khởi động. Tạo file `.env` với `ADMIN_KEY=...`
-để vào trang `/admin` (xem `.env.example`).
 
-> Lưu ý: bình luận, tim, đăng ký, bài viết thêm từ admin chỉ nằm trong RAM – tắt server
-> (hoặc instance Vercel nghỉ) là mất, quay về dữ liệu mẫu.
+## Lưu ý về dữ liệu
+
+Dữ liệu nằm trong RAM. Mỗi lần server khởi động, `sql/schema.sql` và `sql/seed.sql` được nạp lại. Vì vậy bình luận, lượt tim, đăng ký và bài thêm từ trang admin sẽ mất khi server tắt (hoặc khi Vercel cho instance nghỉ). Bài viết mẫu trong `sql/seed.sql` thì luôn còn.
+
+Đây là lựa chọn có chủ đích để dự án chạy được mà không cần database ngoài. Nếu cần lưu lâu dài, chỉ phải thay `lib/db.js` bằng một driver Postgres thật (ví dụ `pg` với Neon hoặc Supabase), các file trong `api/` vẫn dùng nguyên SQL như hiện tại.
 
 ## Deploy lên Vercel
 
-1. Đẩy code lên GitHub.
-2. Vercel → **Add New → Project** → chọn repo → Framework Preset: **Other** → Deploy.
-3. **Settings → Environment Variables** → thêm `ADMIN_KEY` → **Redeploy**.
+1. Đẩy code lên GitHub, import repo vào Vercel với preset **Other**.
+2. Thêm biến môi trường `ADMIN_KEY`.
+3. Deploy. Cấu hình nằm trong `vercel.json` (thư mục `public/`, đóng gói kèm file của PGlite cho hàm API).
 
-## Cấu trúc thư mục
+Runtime Node 24.x được khai báo trong `package.json`.
+
+## Cấu trúc
 
 ```
-ocean-travel-blog/
-├── api/                # Backend: mỗi file = 1 endpoint serverless
-│   ├── posts.js        # GET/POST/PUT/DELETE bài viết
-│   ├── comments.js     # GET/POST bình luận
-│   ├── likes.js        # POST thả tim
-│   ├── subscribe.js    # POST đăng ký nhận tin, GET (admin)
-│   ├── contact.js      # POST liên hệ, GET (admin)
-│   └── stats.js        # GET số liệu thống kê
-├── lib/
-│   ├── db.js           # Database nhúng PGlite (nạp schema + seed khi khởi động)
-│   └── http.js         # Hàm tiện ích: trả JSON, kiểm tra admin, validate
-├── sql/
-│   ├── schema.sql      # Tạo bảng
-│   └── seed.sql        # Dữ liệu mẫu
-├── scripts/
-│   └── test-api.js     # Test nhanh các API
-├── public/             # Frontend tĩnh (Vercel phục vụ thư mục này)
-│   ├── index.html
-│   ├── admin.html
-│   ├── css/ (style.css, animations.css, admin.css)
-│   ├── js/  (main.js, effects.js, blog.js, forms.js, api.js, admin.js)
-│   └── assets/img/
-├── docs/               # Hướng dẫn code, báo cáo, slide
-├── dev-server.js       # Server chạy local giả lập Vercel
-└── vercel.json         # Cấu hình Vercel
+api/          mỗi file là một endpoint (posts, comments, likes, subscribe, contact, stats)
+lib/          db.js (PGlite), http.js (helper dùng chung), env.js (đọc .env)
+sql/          schema.sql, seed.sql
+public/       frontend tĩnh: index.html, admin.html, css/, js/, assets/img/
+scripts/      test-api.js
+dev-server.js server local bắt chước Vercel
+docs/         tài liệu đồ án (xem ghi chú trong HUONG_DAN_CODE.md)
 ```
 
-Xem giải thích chi tiết từng dòng code trong **`docs/HUONG_DAN_CODE.md`**.
+## Nguồn ảnh
+
+Ảnh lấy từ Wikimedia Commons theo giấy phép Creative Commons, xem [docs/CREDITS_ANH.md](docs/CREDITS_ANH.md) hoặc trang `/credits` trên website.
+
+## Giấy phép
+
+MIT, xem [LICENSE](LICENSE).

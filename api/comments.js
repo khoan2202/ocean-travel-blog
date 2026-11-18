@@ -1,9 +1,7 @@
-// =====================================================================
-//  api/comments.js – BÌNH LUẬN
-//  GET  /api/comments?post_id=1        -> danh sách bình luận của 1 bài
-//  POST /api/comments  {post_id, author_name, content} -> thêm bình luận
-//  DELETE /api/comments?id=5  (admin)  -> xoá bình luận
-// =====================================================================
+// /api/comments
+//   GET ?post_id=   danh sách bình luận của một bài
+//   POST            thêm bình luận
+//   DELETE ?id=     xoá (admin)
 const { query } = require('../lib/db');
 const { sendJson, getBody, isAdmin, cleanText, createHandler } = require('../lib/http');
 
@@ -27,7 +25,7 @@ async function addComment(req, res) {
   if (!postId || !author || content.length < 2) {
     return sendJson(res, 400, { error: 'Vui lòng nhập tên và nội dung bình luận' });
   }
-  // Nếu post_id không tồn tại, khoá ngoại sẽ báo lỗi 23503 -> createHandler trả 404
+  // post_id không tồn tại thì khoá ngoại ném 23503, createHandler đổi thành 404
   const rows = await query(
     `INSERT INTO comments (post_id, author_name, content)
      VALUES ($1, $2, $3)

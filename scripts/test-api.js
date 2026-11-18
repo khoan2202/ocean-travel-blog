@@ -1,9 +1,6 @@
-// =====================================================================
-//  scripts/test-api.js – KIỂM THỬ NHANH CÁC API
-//  Bước 1: npm run dev   (ở 1 terminal)
-//  Bước 2: npm run test:api  (ở terminal khác)
-//  Có thể test bản đã deploy:  BASE_URL=https://ten-du-an.vercel.app npm run test:api
-// =====================================================================
+// Test nhanh các API. Chạy server trước (npm run dev), rồi ở terminal khác: npm run test:api
+// Test bản đã deploy: BASE_URL=https://ten-du-an.vercel.app npm run test:api
+// Các test admin cần ADMIN_KEY (đọc từ .env hoặc biến môi trường).
 require('../lib/env').loadEnv();
 const BASE = process.env.BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
 const ADMIN = process.env.ADMIN_KEY;

@@ -1,12 +1,8 @@
-// =====================================================================
-//  api/stats.js – SỐ LIỆU THỐNG KÊ (dùng cho bộ đếm động ở Hero & trang admin)
-//  GET /api/stats
-// =====================================================================
+// GET /api/stats - số liệu cho bộ đếm ở hero và trang admin
 const { query } = require('../lib/db');
 const { sendJson, createHandler } = require('../lib/http');
 
 async function getStats(req, res) {
-  // Hàm tổng hợp (aggregate): COUNT, SUM, COUNT(DISTINCT ...)
   const [totals] = await query(`
     SELECT
       COUNT(*)::int                         AS posts,
@@ -19,7 +15,6 @@ async function getStats(req, res) {
     FROM posts
   `);
 
-  // GROUP BY: đếm số bài theo từng danh mục
   const byCategory = await query(`
     SELECT category, COUNT(*)::int AS total
       FROM posts GROUP BY category ORDER BY total DESC

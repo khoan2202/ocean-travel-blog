@@ -1,8 +1,6 @@
-// =====================================================================
-//  api/subscribe.js – ĐĂNG KÝ NHẬN BẢN TIN
-//  POST /api/subscribe {email}   -> đăng ký
-//  GET  /api/subscribe  (admin)  -> danh sách email
-// =====================================================================
+// /api/subscribe
+//   POST   đăng ký nhận bản tin
+//   GET    danh sách email (admin)
 const { query } = require('../lib/db');
 const { sendJson, getBody, isAdmin, cleanText, isEmail, createHandler } = require('../lib/http');
 
@@ -10,7 +8,7 @@ async function subscribe(req, res) {
   const email = cleanText(getBody(req).email, 160).toLowerCase();
   if (!isEmail(email)) return sendJson(res, 400, { error: 'Email không hợp lệ' });
 
-  // ON CONFLICT DO NOTHING: email đã có thì bỏ qua, không báo lỗi
+  // email đã có thì bỏ qua chứ không báo lỗi
   const rows = await query(
     `INSERT INTO subscribers (email) VALUES ($1)
      ON CONFLICT (email) DO NOTHING

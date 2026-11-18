@@ -1,9 +1,7 @@
-// =====================================================================
-//  api/contact.js – FORM LIÊN HỆ
-//  POST   /api/contact {name, email, message} -> gửi tin nhắn
-//  GET    /api/contact          (admin)       -> xem tin nhắn
-//  DELETE /api/contact?id=2     (admin)       -> xoá tin nhắn
-// =====================================================================
+// /api/contact
+//   POST          gửi tin nhắn từ form liên hệ
+//   GET           xem tin nhắn (admin)
+//   DELETE ?id=   xoá (admin)
 const { query } = require('../lib/db');
 const { sendJson, getBody, isAdmin, cleanText, isEmail, createHandler } = require('../lib/http');
 
@@ -13,7 +11,7 @@ async function sendMessage(req, res) {
   const email = cleanText(body.email, 160).toLowerCase();
   const message = cleanText(body.message, 2000);
 
-  // Gom tất cả lỗi để báo 1 lần cho người dùng
+  // gom hết lỗi để báo một lần
   const errors = [];
   if (name.length < 2) errors.push('Tên quá ngắn');
   if (!isEmail(email)) errors.push('Email không hợp lệ');

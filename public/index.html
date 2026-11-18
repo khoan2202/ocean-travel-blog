@@ -5,9 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Wanderwave – Nhật ký du lịch của Khoan</title>
   <meta name="description" content="Wanderwave – blog du lịch cá nhân: biển đảo, núi rừng, phố thị và ẩm thực." />
+  <meta name="theme-color" content="#031a2f" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Wanderwave – Nhật ký du lịch của Khoan" />
+  <meta property="og:description" content="Biển đảo, núi rừng, phố thị và ẩm thực qua những chuyến đi của mình." />
+  <meta property="og:image" content="https://ocean-travel-blog.vercel.app/assets/img/hero.jpg?v=2" />
+  <meta property="og:url" content="https://ocean-travel-blog.vercel.app/" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
 
-  <!-- Google Fonts: Montserrat (chữ chính, giống Luminary) + Cormorant Garamond (chữ nghiêng trang trí) -->
+  <!-- font: Montserrat cho chữ chính, Cormorant Garamond cho chữ nghiêng -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet" />
@@ -17,7 +24,7 @@
 </head>
 <body class="is-loading">
 
-  <!-- ============ 1. PRELOADER (màn hình chờ) ============ -->
+  <!-- preloader -->
   <div class="preloader" id="preloader" aria-hidden="true">
     <div class="preloader__wave">
       <span></span><span></span><span></span><span></span><span></span>
@@ -25,18 +32,18 @@
     <p class="preloader__text">Đang ra khơi…</p>
   </div>
 
-  <!-- ============ 2. CON TRỎ TUỲ CHỈNH ============ -->
+  <!-- con trỏ tuỳ chỉnh -->
   <div class="cursor-dot" aria-hidden="true"></div>
   <div class="cursor-ring" aria-hidden="true"></div>
 
-  <!-- ============ 3. SIDE PANELS (học từ Luminary) ============ -->
-  <!-- Bên trái: thanh tiến độ cuộn trang -->
+  <!-- hai thanh bên -->
+  <!-- trái: tiến độ cuộn -->
   <aside class="side-panel side-panel--left" aria-hidden="true">
     <span class="side-panel__label">SCROLL</span>
     <div class="side-progress"><div class="side-progress__bar" id="scrollBar"></div></div>
     <span class="side-panel__percent" id="scrollPercent">0%</span>
   </aside>
-  <!-- Bên phải: chấm chỉ mục section (scrollspy) -->
+  <!-- phải: chấm chỉ mục từng mục -->
   <nav class="side-panel side-panel--right" aria-label="Chỉ mục trang">
     <ul class="side-dots" id="sideDots">
       <li><a href="#home" data-label="Trang chủ"></a></li>
@@ -50,7 +57,7 @@
     </ul>
   </nav>
 
-  <!-- ============ 4. HEADER / NAVBAR ============ -->
+  <!-- header -->
   <header class="header" id="header">
     <div class="container header__inner">
       <a href="#home" class="logo">
@@ -73,7 +80,7 @@
     </div>
   </header>
 
-  <!-- Menu toàn màn hình cho điện thoại -->
+  <!-- menu toàn màn hình cho mobile -->
   <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
     <nav>
       <a href="#journeys" style="--i:1">Hành trình</a>
@@ -87,12 +94,12 @@
   </div>
 
   <main>
-    <!-- ============ 5. HERO ============ -->
+    <!-- hero -->
     <section class="hero" id="home" data-section>
       <div class="hero__bg" data-speed="0.3"></div>
-      <!-- Lưới + đèn spotlight chạy theo chuột (hiệu ứng chính của Luminary) -->
+      <!-- lưới sáng theo chuột -->
       <div class="hero__grid" id="heroGrid"></div>
-      <!-- Canvas vẽ bong bóng nước nổi lên -->
+      <!-- canvas bong bóng -->
       <canvas class="hero__bubbles" id="bubbles"></canvas>
 
       <div class="container hero__content">
@@ -110,7 +117,7 @@
           <a href="#journeys" class="btn btn--ghost" data-magnetic data-ripple>Hành trình nổi bật</a>
         </div>
 
-        <!-- Bộ đếm số động: giá trị lấy từ API /api/stats -->
+        <!-- số liệu lấy từ /api/stats -->
         <div class="hero__stats" data-reveal="up" style="--d:.4s">
           <div class="stat"><strong data-count="0" data-stat="countries">0</strong><span>Quốc gia</span></div>
           <div class="stat"><strong data-count="0" data-stat="posts">0</strong><span>Bài viết</span></div>
@@ -121,7 +128,7 @@
 
       <a href="#journeys" class="scroll-hint" aria-label="Cuộn xuống"><span></span></a>
 
-      <!-- Sóng biển SVG chuyển động ở đáy hero -->
+      <!-- sóng SVG ở đáy hero -->
       <div class="waves" aria-hidden="true">
         <svg class="wave wave--1" viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0 60 C 240 120 480 0 720 60 S 1200 120 1440 60 V120 H0Z" /></svg>
         <svg class="wave wave--2" viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0 70 C 240 10 480 120 720 70 S 1200 10 1440 70 V120 H0Z" /></svg>
@@ -129,10 +136,10 @@
       </div>
     </section>
 
-    <!-- ============ 6. TICKER điểm đến chạy vô hạn ============ -->
+    <!-- ticker điểm đến -->
     <div class="ticker" aria-label="Các điểm đến">
       <div class="ticker__track">
-        <!-- Nội dung được nhân đôi để vòng lặp liền mạch -->
+        <!-- nhân đôi nội dung để vòng lặp không bị đứt -->
         <span>Hạ Long</span><span>✦</span><span>Sa Pa</span><span>✦</span><span>Hội An</span><span>✦</span>
         <span>Phú Quốc</span><span>✦</span><span>Hà Giang</span><span>✦</span><span>Kyoto</span><span>✦</span>
         <span>Bali</span><span>✦</span><span>Bangkok</span><span>✦</span><span>Huế</span><span>✦</span><span>Santorini</span><span>✦</span>
@@ -142,19 +149,19 @@
       </div>
     </div>
 
-    <!-- ============ 7. HÀNH TRÌNH NỔI BẬT (showcase xen kẽ trái/phải) ============ -->
+    <!-- hành trình nổi bật -->
     <section class="section" id="journeys" data-section>
       <div class="container">
         <header class="section__head" data-reveal="up">
           <p class="eyebrow">01 — Hành trình nổi bật</p>
           <h2 class="section__title">Những chuyến đi <em>đáng nhớ nhất</em></h2>
         </header>
-        <!-- JS sẽ đổ dữ liệu bài is_featured = TRUE vào đây -->
+        <!-- JS đổ các bài nổi bật vào đây -->
         <div class="showcase-list" id="showcaseList"></div>
       </div>
     </section>
 
-    <!-- ============ 8. BLOG (danh sách bài viết từ database) ============ -->
+    <!-- danh sách bài viết -->
     <section class="section section--alt" id="blog" data-section>
       <div class="container">
         <header class="section__head" data-reveal="up">
@@ -181,7 +188,7 @@
       </div>
     </section>
 
-    <!-- ============ 9. DÒNG THỜI GIAN ============ -->
+    <!-- timeline -->
     <section class="section" id="timeline" data-section>
       <div class="container">
         <header class="section__head" data-reveal="up">
@@ -195,7 +202,7 @@
       </div>
     </section>
 
-    <!-- ============ 10. THƯ VIỆN ẢNH ============ -->
+    <!-- thư viện ảnh -->
     <section class="section section--alt" id="gallery" data-section>
       <div class="container">
         <header class="section__head" data-reveal="up">
@@ -206,7 +213,7 @@
       </div>
     </section>
 
-    <!-- ============ 11. VỀ MÌNH ============ -->
+    <!-- về mình -->
     <section class="section" id="about" data-section>
       <div class="container about">
         <div class="about__media" data-reveal="left">
@@ -219,10 +226,10 @@
         </div>
         <div class="about__text" data-reveal="right">
           <p class="eyebrow">05 — Về mình</p>
-          <h2 class="section__title">Xin chào, mình là <em>Khoa</em></h2>
+          <h2 class="section__title">Xin chào, mình là <em>Khoan</em></h2>
           <p>Sinh viên Hệ thống Thông tin, ban ngày viết code, cuối tuần xách balo lên và đi. Mình tin rằng mỗi chuyến đi đều dạy mình một điều mới – về thế giới và về chính mình.</p>
           <p>Blog này là nơi mình chia sẻ lịch trình, chi phí và những mẹo nhỏ để bạn có thể tự tin lên đường.</p>
-          <!-- Thanh kỹ năng: chiều rộng chạy từ 0 -> giá trị khi cuộn tới -->
+          <!-- thanh kỹ năng, chạy từ 0 khi cuộn tới -->
           <div class="skills">
             <div class="skill"><span>Săn hoàng hôn</span><div class="skill__bar"><i style="--w:95%"></i></div></div>
             <div class="skill"><span>Leo núi trekking</span><div class="skill__bar"><i style="--w:80%"></i></div></div>
@@ -233,7 +240,7 @@
       </div>
     </section>
 
-    <!-- ============ 12. KINH NGHIỆM (FAQ accordion) ============ -->
+    <!-- kinh nghiệm (FAQ) -->
     <section class="section section--alt" id="tips" data-section>
       <div class="container container--narrow">
         <header class="section__head" data-reveal="up">
@@ -266,7 +273,7 @@
       </div>
     </section>
 
-    <!-- ============ 13. LIÊN HỆ + NEWSLETTER ============ -->
+    <!-- liên hệ và đăng ký nhận tin -->
     <section class="section" id="contact" data-section>
       <div class="container contact">
         <div class="contact__info" data-reveal="left">
@@ -304,7 +311,7 @@
     </section>
   </main>
 
-  <!-- ============ 14. FOOTER ============ -->
+  <!-- footer -->
   <footer class="footer">
     <div class="container footer__inner">
       <a href="#home" class="logo"><span>Wander<b>wave</b></span></a>
@@ -314,16 +321,16 @@
     </div>
   </footer>
 
-  <!-- ============ 15. MODAL CHI TIẾT BÀI VIẾT ============ -->
+  <!-- modal chi tiết bài viết -->
   <div class="modal" id="postModal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal__backdrop" data-close></div>
     <article class="modal__panel">
       <button class="modal__close" data-close aria-label="Đóng">✕</button>
-      <div class="modal__body" id="modalBody"><!-- JS đổ nội dung vào đây --></div>
+      <div class="modal__body" id="modalBody"><!-- JS đổ nội dung vào --></div>
     </article>
   </div>
 
-  <!-- ============ 16. LIGHTBOX XEM ẢNH ============ -->
+  <!-- lightbox -->
   <div class="lightbox" id="lightbox" aria-hidden="true">
     <button class="lightbox__close" aria-label="Đóng">✕</button>
     <button class="lightbox__nav lightbox__nav--prev" aria-label="Ảnh trước">‹</button>
@@ -331,14 +338,14 @@
     <button class="lightbox__nav lightbox__nav--next" aria-label="Ảnh sau">›</button>
   </div>
 
-  <!-- ============ 17. TOAST & NÚT LÊN ĐẦU TRANG ============ -->
+  <!-- toast và nút lên đầu trang -->
   <div class="toast-stack" id="toastStack" aria-live="polite"></div>
   <button class="to-top" id="toTop" aria-label="Lên đầu trang">
     <svg viewBox="0 0 48 48"><circle class="to-top__track" cx="24" cy="24" r="21" /><circle class="to-top__ring" id="toTopRing" cx="24" cy="24" r="21" /></svg>
     <span>↑</span>
   </button>
 
-  <!-- type="module": cho phép dùng import/export giữa các file JS -->
+  <!-- module để dùng import/export giữa các file JS -->
   <script type="module" src="js/main.js"></script>
 </body>
 </html>

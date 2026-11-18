@@ -1,7 +1,4 @@
--- =====================================================================
---  WANDERWAVE – DỮ LIỆU MẪU
---  TRUNCATE xoá sạch dữ liệu cũ & đặt lại bộ đếm id -> chạy lại bao nhiêu lần cũng được.
--- =====================================================================
+-- Dữ liệu mẫu. TRUNCATE trước để chạy lại bao nhiêu lần cũng không bị trùng.
 TRUNCATE comments, posts, subscribers, contacts RESTART IDENTITY CASCADE;
 
 INSERT INTO posts

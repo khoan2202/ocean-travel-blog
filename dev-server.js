@@ -1,10 +1,7 @@
-// =====================================================================
-//  dev-server.js – SERVER CHẠY LOCAL (giả lập cách Vercel hoạt động)
-//   • /api/xxx  -> gọi hàm trong api/xxx.js
-//   • còn lại   -> trả file tĩnh trong public/ (hỗ trợ /admin -> admin.html)
-//  Chạy:  npm run dev   rồi mở http://localhost:3000
-//  (Hoặc dùng "vercel dev" nếu đã cài Vercel CLI – không cần file này)
-// =====================================================================
+// Server chạy local, bắt chước cách Vercel làm việc:
+//   /api/xxx -> api/xxx.js
+//   còn lại  -> file tĩnh trong public/ (cleanUrls: /admin -> admin.html)
+// Chạy: npm run dev rồi mở http://localhost:3000
 require('./lib/env').loadEnv();
 const http = require('http');
 const fs = require('fs');
@@ -13,7 +10,6 @@ const path = require('path');
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
-// Bảng MIME: cho trình duyệt biết loại file
 const MIME = {
   '.html': 'text/html; charset=utf-8',
   '.css': 'text/css; charset=utf-8',
@@ -23,7 +19,7 @@ const MIME = {
   '.svg': 'image/svg+xml', '.webp': 'image/webp', '.ico': 'image/x-icon',
 };
 
-// Đọc toàn bộ body của request rồi parse JSON (Vercel tự làm việc này)
+// Vercel tự parse body, ở đây phải tự làm
 function readJsonBody(req) {
   return new Promise((resolve) => {
     let raw = '';
@@ -41,8 +37,8 @@ async function handleApi(req, res, url) {
     res.statusCode = 404;
     return res.end(JSON.stringify({ error: 'API không tồn tại' }));
   }
-  req.query = Object.fromEntries(url.searchParams); // giống req.query của Vercel
-  req.body = await readJsonBody(req);                // giống req.body của Vercel
+  req.query = Object.fromEntries(url.searchParams);
+  req.body = await readJsonBody(req);
   const handler = require(file);
   return handler(req, res);
 }
@@ -52,7 +48,7 @@ function serveStatic(res, url) {
   if (!filePath.startsWith(PUBLIC_DIR)) { res.statusCode = 403; return res.end(); } // chặn ../
 
   if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) filePath = path.join(filePath, 'index.html');
-  if (!fs.existsSync(filePath) && fs.existsSync(filePath + '.html')) filePath += '.html'; // cleanUrls
+  if (!fs.existsSync(filePath) && fs.existsSync(filePath + '.html')) filePath += '.html';
 
   if (!fs.existsSync(filePath)) {
     res.statusCode = 404;
@@ -69,5 +65,5 @@ http.createServer(async (req, res) => {
   if (url.pathname.startsWith('/api/')) return handleApi(req, res, url);
   return serveStatic(res, url);
 }).listen(PORT, () => {
-  console.log(`🌊 Wanderwave đang chạy tại http://localhost:${PORT}`);
+  console.log(`Wanderwave chạy tại http://localhost:${PORT}`);
 });

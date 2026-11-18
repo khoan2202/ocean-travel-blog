@@ -1,6 +1,4 @@
-/* =====================================================================
-   ADMIN.CSS – giao diện trang quản trị (dùng lại biến màu của style.css)
-   ===================================================================== */
+/* Trang quản trị, dùng lại biến màu của style.css */
 .admin { min-height: 100vh; }
 
 /* Đăng nhập */

@@ -1,27 +1,22 @@
-// =====================================================================
-//  js/admin.js – TRANG QUẢN TRỊ (CRUD bài viết, xem tin nhắn, subscriber)
-//  Mọi request ghi/xoá đều gửi header "x-admin-key" để server xác thực.
-// =====================================================================
+// Trang quản trị: CRUD bài viết, xem tin nhắn và người đăng ký.
+// Mọi request ghi/xoá đều gửi header x-admin-key để server xác thực.
 import { api } from './api.js';
 import { $, $$, escapeHtml, formatDate, formatNumber, CATEGORY_LABELS } from './utils.js';
 import { showToast } from './effects.js';
 
 const KEY_STORAGE = 'wanderwave_admin_key';
 const IMAGES = ['halong', 'sapa', 'hoian', 'phuquoc', 'hagiang', 'kyoto', 'bali', 'bangkok', 'hue', 'santorini', 'about', 'hero'];
-let adminKey = sessionStorage.getItem(KEY_STORAGE) || '';   // sessionStorage: đóng tab là mất
+let adminKey = sessionStorage.getItem(KEY_STORAGE) || ''; // sessionStorage nên đóng tab là phải đăng nhập lại
 let posts = [];
 
-// Gọi API kèm header admin
 const adminApi = (path, options = {}) =>
   api(path, { ...options, headers: { 'x-admin-key': adminKey } });
 
-// ---------------------------------------------------------------------
-// ĐĂNG NHẬP / ĐĂNG XUẤT
-// ---------------------------------------------------------------------
+// ---- đăng nhập / đăng xuất ----
 async function tryLogin(key) {
   adminKey = key;
   try {
-    await adminApi('subscribe');                 // endpoint cần quyền admin -> sai key sẽ lỗi 401
+    await adminApi('subscribe'); // endpoint này cần admin, sai key sẽ ra 401
     sessionStorage.setItem(KEY_STORAGE, key);
     $('#loginView').hidden = true;
     $('#dashView').hidden = false;
@@ -48,9 +43,7 @@ $('#logoutBtn').addEventListener('click', () => {
   location.reload();
 });
 
-// ---------------------------------------------------------------------
-// TẢI DỮ LIỆU DASHBOARD
-// ---------------------------------------------------------------------
+// ---- dữ liệu dashboard ----
 async function loadDashboard() {
   loadStats();
   loadPosts();
@@ -67,13 +60,14 @@ async function loadStats() {
   $('#kpis').innerHTML = items.map(([label, value], i) =>
     `<div class="kpi" style="--d:${i * 0.06}s"><strong>${formatNumber(value)}</strong><span>${label}</span></div>`).join('');
 
-  // Biểu đồ cột: chiều rộng = tỉ lệ so với danh mục nhiều bài nhất
+  // độ dài cột tính theo danh mục nhiều bài nhất
   const max = Math.max(...s.byCategory.map((c) => c.total), 1);
   $('#chartBars').innerHTML = s.byCategory.map((c) => `
     <div class="bar"><span>${CATEGORY_LABELS[c.category]}</span>
       <div class="bar__track"><div class="bar__fill" data-w="${(c.total / max) * 100}%"></div></div>
       <b>${c.total}</b></div>`).join('');
-  requestAnimationFrame(() => $$('.bar__fill').forEach((b) => { b.style.width = b.dataset.w; })); // chạy animation
+  // đặt width ở khung hình sau thì transition mới chạy
+  requestAnimationFrame(() => $$('.bar__fill').forEach((b) => { b.style.width = b.dataset.w; }));
 }
 
 async function loadPosts() {
@@ -114,9 +108,7 @@ async function loadSubscribers() {
     || '<tr><td colspan="3" class="muted">Chưa có ai đăng ký.</td></tr>';
 }
 
-// ---------------------------------------------------------------------
-// TABS – thanh gạch chân trượt tới tab đang chọn
-// ---------------------------------------------------------------------
+// ---- tabs: gạch chân trượt tới tab đang chọn ----
 function moveInk(tab) {
   const ink = $('#tabInk');
   ink.style.width = `${tab.offsetWidth}px`;
@@ -130,9 +122,7 @@ $('#tabs').addEventListener('click', (e) => {
   moveInk(tab);
 });
 
-// ---------------------------------------------------------------------
-// FORM THÊM / SỬA BÀI (drawer)
-// ---------------------------------------------------------------------
+// ---- form thêm/sửa bài (drawer bên phải) ----
 const drawer = $('#drawer');
 const form = $('#postForm');
 $('#coverSelect').innerHTML = IMAGES.map((n) => `<option value="/assets/img/${n}.jpg?v=2">${n}.jpg</option>`).join('');
@@ -141,7 +131,7 @@ function openDrawer(post = null) {
   form.reset();
   $('#drawerTitle').textContent = post ? 'Sửa bài viết' : 'Thêm bài viết';
   if (post) {
-    // Đổ dữ liệu bài vào từng ô theo name
+    // đổ dữ liệu vào các ô theo tên field
     for (const [key, value] of Object.entries(post)) {
       const field = form.elements[key];
       if (!field) continue;
@@ -167,8 +157,8 @@ form.addEventListener('submit', async (e) => {
   const id = data.id;
   delete data.id;
   try {
-    if (id) await adminApi(`posts?id=${id}`, { method: 'PUT', body: data });   // SỬA
-    else await adminApi('posts', { method: 'POST', body: data });             // THÊM
+    if (id) await adminApi(`posts?id=${id}`, { method: 'PUT', body: data });
+    else await adminApi('posts', { method: 'POST', body: data });
     showToast(id ? 'Đã cập nhật bài viết' : 'Đã thêm bài viết mới');
     closeDrawer();
     loadPosts();
@@ -178,9 +168,8 @@ form.addEventListener('submit', async (e) => {
   }
 });
 
-// ---------------------------------------------------------------------
-// SỬA / XOÁ – event delegation; xoá cần bấm 2 lần để xác nhận
-// ---------------------------------------------------------------------
+// ---- sửa / xoá ----
+// nút xoá phải bấm hai lần mới xoá thật
 function confirmTwice(btn) {
   if (btn.classList.contains('is-confirm')) return true;
   btn.classList.add('is-confirm');
@@ -215,7 +204,7 @@ document.addEventListener('click', async (e) => {
 
 document.addEventListener('keydown', (e) => e.key === 'Escape' && closeDrawer());
 
-// Tự đăng nhập lại nếu đã có key trong phiên
+// đã có key trong phiên thì tự đăng nhập lại
 if (adminKey) tryLogin(adminKey);
 requestAnimationFrame(() => moveInk($('.tab.is-active')));
 window.addEventListener('resize', () => moveInk($('.tab.is-active')));

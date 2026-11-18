@@ -14,7 +14,7 @@
 </head>
 <body class="admin">
 
-  <!-- ===== MÀN HÌNH ĐĂNG NHẬP ===== -->
+  <!-- đăng nhập -->
   <section class="login" id="loginView">
     <form class="login__card glass" id="loginForm">
       <a href="/" class="logo"><span>Wander<b>wave</b></span></a>
@@ -26,7 +26,7 @@
     </form>
   </section>
 
-  <!-- ===== BẢNG ĐIỀU KHIỂN ===== -->
+  <!-- dashboard -->
   <section class="dashboard" id="dashView" hidden>
     <header class="dash__top">
       <a href="/" class="logo"><span>Wander<b>wave</b></span></a>
@@ -35,10 +35,10 @@
     </header>
 
     <div class="container">
-      <!-- Thẻ thống kê -->
+      <!-- thẻ thống kê -->
       <div class="kpis" id="kpis"></div>
 
-      <!-- Biểu đồ cột: số bài theo danh mục (vẽ bằng CSS) -->
+      <!-- biểu đồ cột số bài theo danh mục, vẽ bằng CSS -->
       <div class="chart glass">
         <h3>Bài viết theo danh mục</h3>
         <div class="chart__bars" id="chartBars"></div>
@@ -52,7 +52,7 @@
         <span class="tabs__ink" id="tabInk"></span>
       </nav>
 
-      <!-- Tab bài viết -->
+      <!-- tab bài viết -->
       <div class="panel is-active" data-panel="posts">
         <div class="panel__head">
           <h2>Quản lý bài viết</h2>
@@ -66,13 +66,13 @@
         </div>
       </div>
 
-      <!-- Tab tin nhắn -->
+      <!-- tab tin nhắn -->
       <div class="panel" data-panel="contacts">
         <div class="panel__head"><h2>Tin nhắn liên hệ</h2></div>
         <div class="msg-list" id="contactList"></div>
       </div>
 
-      <!-- Tab người đăng ký -->
+      <!-- tab người đăng ký -->
       <div class="panel" data-panel="subscribers">
         <div class="panel__head"><h2>Người đăng ký nhận tin</h2></div>
         <div class="table-wrap glass">
@@ -85,7 +85,7 @@
     </div>
   </section>
 
-  <!-- ===== NGĂN KÉO FORM THÊM / SỬA BÀI ===== -->
+  <!-- form thêm/sửa bài -->
   <div class="drawer" id="drawer" aria-hidden="true">
     <div class="drawer__backdrop" data-close-drawer></div>
     <form class="drawer__panel" id="postForm">

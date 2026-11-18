@@ -1,31 +1,24 @@
-// =====================================================================
-//  api/posts.js – CRUD BÀI VIẾT
-//  GET    /api/posts                     -> danh sách (lọc ?category=, ?q=, ?featured=1)
-//  GET    /api/posts?slug=ha-long        -> chi tiết 1 bài + bình luận (+1 lượt xem)
-//  POST   /api/posts            (admin)  -> tạo bài mới
-//  PUT    /api/posts?id=3       (admin)  -> sửa bài
-//  DELETE /api/posts?id=3       (admin)  -> xoá bài
-// =====================================================================
+// /api/posts
+//   GET    ?category= ?q= ?featured=1   danh sách
+//   GET    ?slug=ha-long                chi tiết + bình luận
+//   POST / PUT ?id= / DELETE ?id=       cần admin
 const { query } = require('../lib/db');
 const { sendJson, getBody, isAdmin, cleanText, slugify, createHandler } = require('../lib/http');
 
 const CATEGORIES = ['beach', 'mountain', 'city', 'food'];
 
-// Các cột trả về cho danh sách (không lấy "content" cho nhẹ)
+// danh sách không cần `content` nên bỏ ra cho nhẹ
 const LIST_COLUMNS = `
   p.id, p.slug, p.title, p.excerpt, p.category, p.location, p.country,
   p.cover_image, p.read_minutes, p.distance_km, p.likes, p.views,
   p.travel_date, p.is_featured, p.created_at,
   (SELECT COUNT(*)::int FROM comments c WHERE c.post_id = p.id) AS comment_count`;
 
-// ---------- GET ----------
 async function getPosts(req, res) {
   const { slug, category, q, featured } = req.query;
 
-  // 1) Lấy CHI TIẾT 1 bài theo slug
   if (slug) {
-    // UPDATE ... RETURNING: vừa tăng lượt xem vừa lấy dữ liệu trong 1 câu lệnh.
-    // Admin mở bài để sửa thì KHÔNG tính lượt xem.
+    // tăng view và lấy bài trong một câu; admin mở để sửa thì không tính view
     const sql = isAdmin(req)
       ? 'SELECT * FROM posts WHERE slug = $1'
       : 'UPDATE posts SET views = views + 1 WHERE slug = $1 RETURNING *';
@@ -40,7 +33,7 @@ async function getPosts(req, res) {
     return sendJson(res, 200, { post: rows[0], comments });
   }
 
-  // 2) Lấy DANH SÁCH – xây câu WHERE động nhưng vẫn dùng tham số $n (an toàn)
+  // WHERE ghép động, nhưng giá trị vẫn đi qua $n
   const conditions = [];
   const params = [];
 
@@ -63,7 +56,6 @@ async function getPosts(req, res) {
   return sendJson(res, 200, { posts });
 }
 
-// Kiểm tra & chuẩn hoá dữ liệu bài viết gửi lên
 function validatePost(body, { partial = false } = {}) {
   const data = {
     title: cleanText(body.title, 200),
@@ -75,7 +67,7 @@ function validatePost(body, { partial = false } = {}) {
     cover_image: cleanText(body.cover_image, 255) || '/assets/img/halong.jpg?v=2',
     read_minutes: Math.max(1, parseInt(body.read_minutes, 10) || 5),
     distance_km: Math.max(0, parseInt(body.distance_km, 10) || 0),
-    // Chỉ nhận ngày dạng YYYY-MM-DD, sai định dạng -> null
+    // chỉ nhận YYYY-MM-DD, còn lại coi như chưa có ngày
     travel_date: /^\d{4}-\d{2}-\d{2}$/.test(body.travel_date || '') ? body.travel_date : null,
     is_featured: Boolean(body.is_featured),
   };
@@ -88,7 +80,6 @@ function validatePost(body, { partial = false } = {}) {
   return { data };
 }
 
-// ---------- POST (tạo) ----------
 async function createPost(req, res) {
   if (!isAdmin(req)) return sendJson(res, 401, { error: 'Bạn cần quyền quản trị' });
   const { data, error } = validatePost(getBody(req));
@@ -106,7 +97,6 @@ async function createPost(req, res) {
   return sendJson(res, 201, { post: rows[0] });
 }
 
-// ---------- PUT (sửa) ----------
 async function updatePost(req, res) {
   if (!isAdmin(req)) return sendJson(res, 401, { error: 'Bạn cần quyền quản trị' });
   const id = parseInt(req.query.id, 10);
@@ -126,7 +116,6 @@ async function updatePost(req, res) {
   return sendJson(res, 200, { post: rows[0] });
 }
 
-// ---------- DELETE (xoá) ----------
 async function deletePost(req, res) {
   if (!isAdmin(req)) return sendJson(res, 401, { error: 'Bạn cần quyền quản trị' });
   const id = parseInt(req.query.id, 10);
@@ -135,7 +124,6 @@ async function deletePost(req, res) {
   return sendJson(res, 200, { deleted: rows[0].id });
 }
 
-// Gắn mỗi HTTP method với 1 hàm xử lý
 module.exports = createHandler({
   GET: getPosts,
   POST: createPost,

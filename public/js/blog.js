@@ -1,25 +1,19 @@
-// =====================================================================
-//  js/blog.js – PHẦN "FULL-STACK": LẤY DỮ LIỆU TỪ API & HIỂN THỊ
-//  Gồm: danh sách bài + lọc + tìm kiếm, showcase, timeline, gallery,
-//       modal chi tiết, thả tim, bình luận.
-// =====================================================================
+// Phần lấy dữ liệu từ API và vẽ ra: danh sách bài, lọc/tìm kiếm, showcase,
+// timeline, gallery, modal chi tiết, thả tim và bình luận.
 import { api } from './api.js';
 import { $, $$, escapeHtml, formatDate, formatNumber, debounce, CATEGORY_LABELS } from './utils.js';
 import { observeReveal, applyTilt, openLightbox, showToast } from './effects.js';
 
-// Trạng thái bộ lọc hiện tại
 const state = { category: 'all', q: '' };
 
-// Danh sách id bài đã thả tim, lưu trong localStorage để nhớ sau khi tải lại trang
+// nhớ các bài đã thả tim để tải lại trang vẫn còn tô đỏ
 const LIKED_KEY = 'wanderwave_liked';
 const getLiked = () => JSON.parse(localStorage.getItem(LIKED_KEY) || '[]');
 const setLiked = (ids) => localStorage.setItem(LIKED_KEY, JSON.stringify(ids));
 
-// ---------------------------------------------------------------------
-// 1) THẺ BÀI VIẾT (template string -> HTML)
-// ---------------------------------------------------------------------
+// ---- thẻ bài viết ----
 function cardTemplate(post, index) {
-  // escapeHtml cho mọi dữ liệu từ DB để chống XSS
+  // mọi thứ lấy từ DB đều escape trước khi chèn vào HTML
   return `
     <article class="card is-entering" style="--d:${index * 0.07}s" data-slug="${escapeHtml(post.slug)}" tabindex="0">
       <span class="card__glare"></span>
@@ -41,7 +35,7 @@ function cardTemplate(post, index) {
     </article>`;
 }
 
-// Thẻ "khung xương" hiển thị trong lúc chờ API
+// khung xương hiện trong lúc chờ API
 const skeletonTemplate = () => `
   <div class="card skeleton">
     <div class="card__media"></div>
@@ -52,15 +46,12 @@ const skeletonTemplate = () => `
     </div>
   </div>`;
 
-// ---------------------------------------------------------------------
-// 2) TẢI & HIỂN THỊ DANH SÁCH BÀI (có lọc + tìm kiếm)
-// ---------------------------------------------------------------------
+// ---- danh sách bài, lọc và tìm kiếm ----
 export async function loadPosts() {
   const grid = $('#postGrid');
   const empty = $('#emptyState');
   grid.innerHTML = skeletonTemplate().repeat(6);
 
-  // URLSearchParams tự mã hoá ký tự đặc biệt/tiếng Việt trong URL
   const params = new URLSearchParams();
   if (state.category !== 'all') params.set('category', state.category);
   if (state.q) params.set('q', state.q);
@@ -71,7 +62,7 @@ export async function loadPosts() {
     empty.hidden = posts.length > 0;
 
     $$('.card', grid).forEach((card) => {
-      applyTilt(card);                                            // hiệu ứng nghiêng 3D
+      applyTilt(card);
       card.addEventListener('animationend', () => card.classList.remove('is-entering'), { once: true });
       card.addEventListener('click', () => openPost(card.dataset.slug));
       card.addEventListener('keydown', (e) => e.key === 'Enter' && openPost(card.dataset.slug));
@@ -84,7 +75,6 @@ export async function loadPosts() {
 }
 
 export function initFilters() {
-  // Bấm chip danh mục
   $('#filterChips').addEventListener('click', (e) => {
     const chip = e.target.closest('.chip');
     if (!chip) return;
@@ -92,16 +82,13 @@ export function initFilters() {
     state.category = chip.dataset.category;
     loadPosts();
   });
-  // Gõ tìm kiếm (debounce 350ms)
   $('#searchInput').addEventListener('input', debounce((e) => {
     state.q = e.target.value.trim();
     loadPosts();
   }, 350));
 }
 
-// ---------------------------------------------------------------------
-// 3) SHOWCASE – 3 hành trình nổi bật (is_featured = TRUE)
-// ---------------------------------------------------------------------
+// ---- showcase: 3 hành trình nổi bật ----
 export function renderShowcase(posts) {
   const featured = posts.filter((p) => p.is_featured).slice(0, 3);
   $('#showcaseList').innerHTML = featured.map((p, i) => `
@@ -125,9 +112,7 @@ export function renderShowcase(posts) {
   observeReveal($('#showcaseList'));
 }
 
-// ---------------------------------------------------------------------
-// 4) TIMELINE – sắp xếp theo ngày đi, cũ -> mới
-// ---------------------------------------------------------------------
+// ---- timeline: cũ nhất lên trước ----
 export function renderTimeline(posts) {
   const sorted = [...posts].sort((a, b) => new Date(a.travel_date) - new Date(b.travel_date));
   $('#timelineList').innerHTML = sorted.map((p, i) => `
@@ -144,9 +129,7 @@ export function renderTimeline(posts) {
   observeReveal($('#timelineList'));
 }
 
-// ---------------------------------------------------------------------
-// 5) GALLERY – lưới ảnh kiểu "masonry" + lightbox
-// ---------------------------------------------------------------------
+// ---- gallery + lightbox ----
 export function renderGallery(posts) {
   const items = posts.map((p) => ({ src: p.cover_image, caption: `${p.location}, ${p.country}` }));
   const grid = $('#gallery-grid');
@@ -162,9 +145,7 @@ export function renderGallery(posts) {
   observeReveal(grid);
 }
 
-// ---------------------------------------------------------------------
-// 6) MODAL CHI TIẾT BÀI VIẾT
-// ---------------------------------------------------------------------
+// ---- modal chi tiết bài viết ----
 const modal = $('#postModal');
 const modalBody = $('#modalBody');
 
@@ -177,7 +158,7 @@ function closeModal() {
   modal.classList.remove('is-open');
   modal.setAttribute('aria-hidden', 'true');
   document.body.classList.remove('no-scroll');
-  history.replaceState(null, '', location.pathname);   // xoá ?post=... khỏi URL
+  history.replaceState(null, '', location.pathname); // bỏ ?post=... khỏi URL
 }
 
 function commentTemplate(c) {
@@ -195,12 +176,12 @@ function commentTemplate(c) {
 export async function openPost(slug) {
   modalBody.innerHTML = '<div class="post-detail__body"><div class="skeleton__line skeleton__line--mid"></div><div class="skeleton__line"></div><div class="skeleton__line"></div></div>';
   openModal();
-  history.replaceState(null, '', `?post=${encodeURIComponent(slug)}`); // URL chia sẻ được
+  history.replaceState(null, '', `?post=${encodeURIComponent(slug)}`); // để copy link chia sẻ được
 
   try {
     const { post, comments } = await api(`posts?slug=${encodeURIComponent(slug)}`);
     const liked = getLiked().includes(post.id);
-    // Nội dung: mỗi đoạn cách nhau bằng dòng trống -> 1 thẻ <p>
+    // đoạn văn cách nhau bằng dòng trống
     const paragraphs = post.content.split(/\n\s*\n/).map((p) => `<p>${escapeHtml(p)}</p>`).join('');
 
     modalBody.innerHTML = `
@@ -239,14 +220,13 @@ export async function openPost(slug) {
   }
 }
 
-// ---------------------------------------------------------------------
-// 7) THẢ TIM – cập nhật giao diện NGAY (optimistic UI) rồi mới gọi API
-// ---------------------------------------------------------------------
+// ---- thả tim ----
+// đổi giao diện trước cho mượt, lỗi thì hoàn lại
 async function toggleLike(postId, btn) {
   const liked = getLiked();
   const isLiked = liked.includes(postId);
   btn.classList.toggle('is-liked', !isLiked);
-  btn.classList.remove('pop'); void btn.offsetWidth; btn.classList.add('pop'); // reset animation
+  btn.classList.remove('pop'); void btn.offsetWidth; btn.classList.add('pop');
   if (!isLiked) burstHearts(btn);
 
   try {
@@ -254,12 +234,12 @@ async function toggleLike(postId, btn) {
     $('#likeCount').textContent = formatNumber(likes);
     setLiked(isLiked ? liked.filter((id) => id !== postId) : [...liked, postId]);
   } catch (err) {
-    btn.classList.toggle('is-liked', isLiked);   // lỗi -> hoàn tác giao diện
+    btn.classList.toggle('is-liked', isLiked);
     showToast(err.message, 'error');
   }
 }
 
-// Tạo 10 hạt nhỏ bay toả ra xung quanh trái tim
+// 10 hạt nhỏ bay toả ra quanh nút tim
 function burstHearts(btn) {
   const colors = ['#ff7a9c', '#5ff2c9', '#2a9fd6', '#ffd36b'];
   for (let i = 0; i < 10; i++) {
@@ -274,19 +254,17 @@ function burstHearts(btn) {
   }
 }
 
-// ---------------------------------------------------------------------
-// 8) GỬI BÌNH LUẬN
-// ---------------------------------------------------------------------
+// ---- gửi bình luận ----
 async function submitComment(e, postId) {
-  e.preventDefault();                          // chặn trình duyệt tải lại trang
+  e.preventDefault();
   const form = e.target;
-  const data = Object.fromEntries(new FormData(form));   // {author_name, content}
+  const data = Object.fromEntries(new FormData(form));
   const button = form.querySelector('button');
   button.disabled = true;
   try {
     const { comment } = await api('comments', { method: 'POST', body: { post_id: postId, ...data } });
     $('#commentList').insertAdjacentHTML('afterbegin', commentTemplate(comment));
-    $('#commentList').firstElementChild.classList.add('is-new'); // trượt vào (animation card-in)
+    $('#commentList').firstElementChild.classList.add('is-new');
     $('#commentCount').textContent = Number($('#commentCount').textContent) + 1;
     form.reset();
     showToast('Cảm ơn bạn đã bình luận!');
@@ -299,11 +277,8 @@ async function submitComment(e, postId) {
   }
 }
 
-// ---------------------------------------------------------------------
-// 9) GẮN SỰ KIỆN CHUNG
-// ---------------------------------------------------------------------
 export function initModal() {
-  // Mọi phần tử có data-open="slug" (showcase, timeline) đều mở modal
+  // bất kỳ phần tử nào có data-open="slug" cũng mở được modal
   document.addEventListener('click', (e) => {
     const opener = e.target.closest('[data-open]');
     if (opener) openPost(opener.dataset.open);
@@ -311,7 +286,7 @@ export function initModal() {
   });
   document.addEventListener('keydown', (e) => e.key === 'Escape' && modal.classList.contains('is-open') && closeModal());
 
-  // Mở sẵn bài nếu URL có ?post=slug (link chia sẻ)
+  // link chia sẻ dạng ?post=slug thì mở luôn bài đó
   const slug = new URLSearchParams(location.search).get('post');
   if (slug) openPost(slug);
 }
