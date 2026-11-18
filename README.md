@@ -58,6 +58,13 @@ dev-server.js server local bắt chước Vercel
 docs/         tài liệu đồ án (xem ghi chú trong HUONG_DAN_CODE.md)
 ```
 
+## Cách mình làm dự án này
+
+Mình làm dự án này cùng Claude Code (trợ lý lập trình AI).
+
+- **Mình:** đặt yêu cầu, chọn hướng đi và đánh đổi (ví dụ dùng PGlite thay database ngoài), deploy lên Vercel, chạy thử và báo lỗi, chọn ảnh, duyệt kết quả.
+- **Claude:** hỗ trợ viết code, tìm ảnh Creative Commons và rà lỗi.
+
 ## Nguồn ảnh
 
 Ảnh lấy từ Wikimedia Commons theo giấy phép Creative Commons, xem [docs/CREDITS_ANH.md](docs/CREDITS_ANH.md) hoặc trang `/credits` trên website.
