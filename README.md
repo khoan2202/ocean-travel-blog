@@ -55,7 +55,7 @@ sql/          schema.sql, seed.sql
 public/       frontend tĩnh: index.html, admin.html, css/, js/, assets/img/
 scripts/      test-api.js
 dev-server.js server local bắt chước Vercel
-docs/         tài liệu đồ án (xem ghi chú trong HUONG_DAN_CODE.md)
+CREDITS.md    nguồn ảnh
 ```
 
 ## Cách mình làm dự án này
@@ -67,7 +67,7 @@ Mình làm dự án này cùng Claude Code (trợ lý lập trình AI).
 
 ## Nguồn ảnh
 
-Ảnh lấy từ Wikimedia Commons theo giấy phép Creative Commons, xem [docs/CREDITS_ANH.md](docs/CREDITS_ANH.md) hoặc trang `/credits` trên website.
+Ảnh lấy từ Wikimedia Commons theo giấy phép Creative Commons, xem [CREDITS.md](CREDITS.md) hoặc trang `/credits` trên website.
 
 ## Giấy phép
 
