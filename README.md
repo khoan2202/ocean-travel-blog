@@ -63,7 +63,7 @@ CREDITS.md    nguồn ảnh
 Mình làm dự án này cùng Claude Code (trợ lý lập trình AI).
 
 - **Mình:** đặt yêu cầu, chọn hướng đi và đánh đổi (ví dụ dùng PGlite thay database ngoài), deploy lên Vercel, chạy thử và báo lỗi, chọn ảnh, duyệt kết quả.
-- **Claude:** hỗ trợ viết code, tìm ảnh Creative Commons và rà lỗi.
+- **Claude:** đóng vai trò trợ lý lập trình, hỗ trợ viết code, tìm ảnh Creative Commons và rà lỗi.
 
 ## Nguồn ảnh
 
