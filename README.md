@@ -12,6 +12,22 @@ Blog du lịch cá nhân, làm theo kiểu full-stack nhưng không dùng framew
 - Form liên hệ và đăng ký nhận tin, kiểm tra cả ở trình duyệt lẫn server.
 - Responsive, hỗ trợ `prefers-reduced-motion`, escape HTML ở mọi chỗ hiển thị dữ liệu người dùng.
 
+## Giao diện
+
+![Trang chủ](screenshots/01-hero.jpg)
+
+| | |
+|---|---|
+| ![Hành trình nổi bật](screenshots/02-hanh-trinh.jpg) | ![Danh sách bài viết](screenshots/03-bai-viet.jpg) |
+| ![Chi tiết bài viết](screenshots/05-chi-tiet-bai.jpg) | ![Thư viện ảnh](screenshots/04-thu-vien.jpg) |
+
+Trang quản trị và bản mobile:
+
+<p>
+  <img src="screenshots/07-admin.jpg" alt="Trang quản trị" width="62%" />
+  <img src="screenshots/06-mobile.jpg" alt="Bản mobile" width="22%" />
+</p>
+
 ## Công nghệ
 
 | | |
@@ -55,6 +71,7 @@ sql/          schema.sql, seed.sql
 public/       frontend tĩnh: index.html, admin.html, css/, js/, assets/img/
 scripts/      test-api.js
 dev-server.js server local bắt chước Vercel
+screenshots/  ảnh chụp giao diện dùng trong README
 CREDITS.md    nguồn ảnh
 ```
 
